@@ -1,5 +1,11 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import { config } from "dotenv";
+config()
+
+if (!process.env.API_URL) {
+  throw new Error("API_URL is not defined in the environment variables");
+}
 
 /**
  * Read environment variables from file.
