@@ -1,0 +1,31 @@
+{
+  "name": "mate.academy-rec-task",
+  "version": "1.0.0",
+  "description": "Technical evaluation task for QA mentor role in mate.academy",
+  "main": "index.js",
+  "scripts": {
+    "tests": "playwright test",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "check": "npm run lint && npm run format"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/403-html/mate.academy-rec-task.git"
+  },
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/403-html/mate.academy-rec-task/issues"
+  },
+  "homepage": "https://github.com/403-html/mate.academy-rec-task#readme",
+  "dependencies": {
+    "eslint": "^9.25.1",
+    "playwright": "^1.52.0",
+    "prettier": "^3.5.3"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.3"
+  }
+}
