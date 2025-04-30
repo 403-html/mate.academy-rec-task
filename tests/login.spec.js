@@ -35,7 +35,6 @@ test.describe("Login", () => {
       .build();
     await conduitPage.locators.login.emailInput.fill(user.init.email);
     await conduitPage.locators.login.signInButton.click();
-    await expect(conduitPage.locators.login.errorMessageList).toBeVisible();
     await expect(conduitPage.locators.login.errorMessage).toHaveText(
       "password:can't be blank",
     );

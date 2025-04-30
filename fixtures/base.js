@@ -5,8 +5,8 @@ import { config } from "dotenv";
 config()
 
 export const test = base.extend({
-  conduitPage: async ({ page, browser }, use) => {
-    const conductPage = new ConduitPage(page, browser);
+  conduitPage: async ({ page, browser, context }, use) => {
+    const conductPage = new ConduitPage(page, browser, context);
     await use(conductPage);
   },
 });
