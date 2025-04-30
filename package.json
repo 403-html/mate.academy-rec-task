@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tests": "playwright test",
+    "tests:ui": "playwright test --ui",
     "lint": "eslint .",
     "format": "prettier --write .",
     "check": "npm run lint && npm run format"
