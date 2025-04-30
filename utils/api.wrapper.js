@@ -59,5 +59,5 @@ export class ApiClient {
     }
 
     return { response, body: json };
-  }  
+  }
 }

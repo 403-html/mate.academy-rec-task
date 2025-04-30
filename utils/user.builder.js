@@ -1,7 +1,7 @@
 import { ApiClient } from "./api.wrapper";
 
 import { config } from "dotenv";
-config()
+config();
 
 export class UserBuilder {
   constructor() {
@@ -31,10 +31,10 @@ export class UserBuilder {
   async build() {
     const registerResponse = await this.apiClient.post("/users", {
       user: {
-          username: this.user.username,
-          email: this.user.email,
-          password: this.user.password,
-        },
+        username: this.user.username,
+        email: this.user.email,
+        password: this.user.password,
+      },
     });
     const { user } = registerResponse.body;
     // Get effectiveImage for the user (used in local storage)
@@ -49,7 +49,7 @@ export class UserBuilder {
         email: this.user.email,
         password: this.user.password,
       },
-      user
-    }
+      user,
+    };
   }
 }

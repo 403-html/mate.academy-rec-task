@@ -1,7 +1,7 @@
 // @ts-check
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 import { config } from "dotenv";
-config()
+config();
 
 if (!process.env.API_URL) {
   throw new Error("API_URL is not defined in the environment variables");
@@ -92,4 +92,3 @@ export default defineConfig({
   //   reuseExistingServer: !process.env.CI,
   // },
 });
-

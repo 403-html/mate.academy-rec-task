@@ -9,11 +9,11 @@ Create two positive test cases:
 - Login (<https://conduit.mate.academy/user/login>)
 - Article Creation (<https://conduit.mate.academy/editor>)
 
-> *Optional:* Add negative test cases for both scenarios.
+> _Optional:_ Add negative test cases for both scenarios.
 
 ## Project setup
 
-> *Prerequisites:* Node.js (at least `v18, v20` or `v22`) and npm should be installed on your machine. You can download it from [Node.js official website](https://nodejs.org/)), or use nvm (Node Version Manager) to install and manage Node.js versions.
+> _Prerequisites:_ Node.js (at least `v18, v20` or `v22`) and npm should be installed on your machine. You can download it from [Node.js official website](https://nodejs.org/)), or use nvm (Node Version Manager) to install and manage Node.js versions.
 
 1. Clone repository and navigate to the project directory:
 
