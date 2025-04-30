@@ -26,30 +26,38 @@ export class ApiClient {
   async makeRequest(method, path, body = null, headers = {}) {
     const url = `${this.baseUrl}${path}`;
     const finalHeaders = {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+      Accept: "application/json",
+      ...(body && { "Content-Type": "application/json" }),
       ...headers,
     };
-  
-    const opts = { method, headers: finalHeaders };
-    if (body !== null) {
-      opts.body = JSON.stringify(body);
-    }
-  
+
+    const opts = {
+      method,
+      headers: finalHeaders,
+      ...(body && { body: JSON.stringify(body) }),
+    };
+
     const response = await fetch(url, opts);
-    const text = await response.text();
     let json;
-    try { json = JSON.parse(text); } catch { json = null; }
-  
+
+    try {
+      json = await response.json();
+    } catch {
+      // Handle non-JSON responses gracefully
+      json = null;
+    }
+
     if (!response.ok) {
       throw new Error(
         `API request failed:
-        ${method} ${url} — ${response.status} ${response.statusText}
-        Response body: ${text}
-        Request body: ${JSON.stringify(body, null, 2)}`
+        Method: ${method}
+        URL: ${url}
+        Status: ${response.status} ${response.statusText}
+        Response: ${json || (await response.text())}
+        Request Body: ${body ? JSON.stringify(body, null, 2) : "N/A"}`,
       );
     }
-  
+
     return { response, body: json };
   }  
 }
