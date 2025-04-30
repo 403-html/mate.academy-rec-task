@@ -52,3 +52,4 @@ Create two positive test cases:
 - Added prettier and eslint just to make sure code is formatted and linted.
 - There weren't any test steps specified in the task description, so I used my own judgement to create them, not to be too complex (e2e should be simple critical path tests, not too complex).
   - For login test case assertion I just checked if user get its name in the header after login
+- For truely unique user names we need to use workers numbers, as even unix timestamp is not unique enough (if we run tests in parallel, we can get same timestamp for different runs – rarely, but still). So I used `Date.now()` + spec type + worker number to create unique user name.

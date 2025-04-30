@@ -3,10 +3,11 @@ import { expect } from "playwright/test";
 import { UserBuilder } from "../utils/user.builder.js";
 
 test.describe("Article", () => {
-  test.beforeEach(async ({ conduitPage, context }) => {
+  test.beforeEach(async ({ conduitPage, articlePage, context }, testInfo) => {
+    const userString = `testuser-${Date.now()}-article-${testInfo.workerIndex}`;
     const user = await new UserBuilder()
-      .withUsername(`testuser-${Date.now()}`)
-      .withEmail(`test-${Date.now()}@example.com`)
+      .withUsername(userString)
+      .withEmail(`${userString}@example.com`)
       .withPassword("password")
       .build();
 
@@ -25,7 +26,7 @@ test.describe("Article", () => {
       ["user", JSON.stringify(user.user)],
     );
 
-    await conduitPage.goto("/editor");
+    await articlePage.goto();
     await expect(conduitPage.locators.nav.profileLink).toBeVisible();
     await expect(conduitPage.locators.nav.profileLink).toHaveAttribute(
       "href",
@@ -33,7 +34,7 @@ test.describe("Article", () => {
     );
   });
 
-  test("should create an article with valid data", async ({ conduitPage }) => {
+  test("should create an article with valid data", async ({ articlePage }) => {
     const article = {
       title: `Test Article ${Date.now()}`,
       about: "This is a test article",
@@ -41,25 +42,26 @@ test.describe("Article", () => {
       tags: ["test"],
     };
 
-    await conduitPage.locators.article.titleInput.fill(article.title);
-    await conduitPage.locators.article.aboutInput.fill(article.about);
-    await conduitPage.locators.article.contentInput.fill(article.content);
-    await conduitPage.locators.article.tagsInput.fill(article.tags.join(","));
-    await conduitPage.locators.article.tagsInput.blur();
-    await expect(conduitPage.locators.article.tagsPill).toHaveCount(1);
-    await conduitPage.locators.article.publishButton.click();
-    const response = await conduitPage.page.waitForResponse(
+    await articlePage.locators.article.titleInput.fill(article.title);
+    await articlePage.locators.article.aboutInput.fill(article.about);
+    await articlePage.locators.article.contentInput.fill(article.content);
+    await articlePage.locators.article.tagsInput.fill(article.tags.join(","));
+    await articlePage.locators.article.tagsInput.blur();
+    await expect(articlePage.locators.article.tagsPill).toHaveCount(1);
+    await articlePage.locators.article.publishButton.click();
+    const response = await articlePage.page.waitForResponse(
       (response) =>
-        response.url().includes("/articles") && response.request().method() === "POST",
+        response.url().includes("/articles") &&
+        response.request().method() === "POST",
     );
     expect(response.ok()).toBeTruthy();
-    await expect(
-      conduitPage.locators.article.titleHeader,
-    ).toHaveText(article.title);
+    await expect(articlePage.locators.article.titleHeader).toHaveText(
+      article.title,
+    );
   });
 
   test("should not create an article with missing title", async ({
-    conduitPage,
+    articlePage,
   }) => {
     const article = {
       about: "This is a test article",
@@ -67,19 +69,19 @@ test.describe("Article", () => {
       tag: "test",
     };
 
-    await conduitPage.locators.article.aboutInput.fill(article.about);
-    await conduitPage.locators.article.contentInput.fill(article.content);
-    await conduitPage.locators.article.tagsInput.fill(article.tag);
-    await conduitPage.locators.article.tagsInput.blur();
-    await expect(conduitPage.locators.article.tagsPill).toHaveCount(1);
-    await conduitPage.locators.article.publishButton.click();
-    await expect(conduitPage.locators.article.errorMessage).toHaveText(
+    await articlePage.locators.article.aboutInput.fill(article.about);
+    await articlePage.locators.article.contentInput.fill(article.content);
+    await articlePage.locators.article.tagsInput.fill(article.tag);
+    await articlePage.locators.article.tagsInput.blur();
+    await expect(articlePage.locators.article.tagsPill).toHaveCount(1);
+    await articlePage.locators.article.publishButton.click();
+    await expect(articlePage.locators.article.errorMessage).toHaveText(
       "0:Article title cannot be empty",
     );
   });
 
   test("should not create an article with missing content", async ({
-    conduitPage,
+    articlePage,
   }) => {
     const article = {
       title: `Test Article ${Date.now()}`,
@@ -87,13 +89,13 @@ test.describe("Article", () => {
       tag: "test",
     };
 
-    await conduitPage.locators.article.titleInput.fill(article.title);
-    await conduitPage.locators.article.aboutInput.fill(article.about);
-    await conduitPage.locators.article.tagsInput.fill(article.tag);
-    await conduitPage.locators.article.tagsInput.blur();
-    await expect(conduitPage.locators.article.tagsPill).toHaveCount(1);
-    await conduitPage.locators.article.publishButton.click();
-    await expect(conduitPage.locators.article.errorMessage).toHaveText(
+    await articlePage.locators.article.titleInput.fill(article.title);
+    await articlePage.locators.article.aboutInput.fill(article.about);
+    await articlePage.locators.article.tagsInput.fill(article.tag);
+    await articlePage.locators.article.tagsInput.blur();
+    await expect(articlePage.locators.article.tagsPill).toHaveCount(1);
+    await articlePage.locators.article.publishButton.click();
+    await expect(articlePage.locators.article.errorMessage).toHaveText(
       "0:Article body cannot be empty",
     );
   });
