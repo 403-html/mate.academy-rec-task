@@ -42,9 +42,9 @@ Create two positive test cases:
 
 ## Assumptions/Notes
 
-- Architecture is using Playwright + Javascript, even though we could use Typescript. It was specified in the task description to use Javascript.
+- Architecture is using Playwright + Javascript *as specified in the task instructions*, although TypeScript could have been a viable alternative for enhanced type safety.
 - Setup is using default Playwright configuration (parallel workers, default 3 browser etc.), as any changes/needs weren't specified in the task description.
-- The app doesn't have attributes such as `data-test`, `data-testid` or similar in the DOM, which is bad practice as test elements should be navigable, but I assume this is not a problem for this task. I used less preferred selectors such as `text` and `xpath` to find elements in the DOM.
+- The application lacks testing-specific attributes like `data-test` or `data-testid`, which are generally considered best practice for testability. For the purpose of this task, `xpath` selectors were used to locate elements.
 - For ease of preparing article creation test case, we need user to be logged in. So for this I create for each test run fresh user with random email and password (app under test allows to use anything, doesn't need to validate if email was sent in client – we also assume it's right).
   - For this I encapsulated API class, which is used to call API endpoints in app.
   - I use registration API endpoint for this, but I didn't create registration test case, as it is not required in the task description. Only login and article creation test cases are required.
@@ -52,5 +52,5 @@ Create two positive test cases:
 - Added prettier and eslint just to make sure code is formatted and linted.
 - There weren't any test steps specified in the task description, so I used my own judgement to create them, not to be too complex (e2e should be simple critical path tests, not too complex).
   - For login test case assertion I just checked if user get its name in the header after login
-- For truely unique user names we need to use workers numbers, as even unix timestamp is not unique enough (if we run tests in parallel, we can get same timestamp for different runs – rarely, but still). So I used `Date.now()` + spec type + worker number to create unique user name.
-- Locators list I've put in `data` folder, but in real life I'd put them in separate file where app code is (or shared folder/module), so they could be reused in app to create elements with same locators.
+- To ensure unique usernames, a combination of the Unix timestamp, spec type, and worker number is used, preventing conflicts during parallel test execution.
+- Locators are stored in the `data` folder for simplicity. In a real-world scenario, they would ideally reside in a shared module to promote reusability across the application and test suites.
